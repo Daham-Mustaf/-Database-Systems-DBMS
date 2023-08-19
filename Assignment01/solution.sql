@@ -91,6 +91,16 @@ GROUP BY
 ORDER BY
     a.row, b.col;
 
+-- if you want to delet all tables together us bellow 
+DO $$ 
+DECLARE 
+    table_name_var text;
+BEGIN 
+    FOR table_name_var IN (SELECT table_name FROM information_schema.tables WHERE table_schema = 'public') 
+    LOOP 
+        EXECUTE 'DROP TABLE IF EXISTS public.' || table_name_var || ' CASCADE'; 
+    END LOOP; 
+END $$;
 
 
 
