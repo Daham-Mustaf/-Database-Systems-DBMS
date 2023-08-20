@@ -19,6 +19,8 @@ VALUES
     (10.5, ARRAY[1.0, 3.0, 8.0]);
 
 
+
+
 -- (b) Compute a one-column table with the global maximum of the measurements 𝑚(𝑡).
 SELECT MAX(value) AS global_max
 FROM (
@@ -76,3 +78,21 @@ SELECT t, global_max
 FROM max_values
 WHERE global_max = (SELECT MAX(global_max) FROM max_values);
 
+
+
+-- sample of quereis in the lecture
+-- Advanced SQL — Chapter 02 — Video #04 — SELECT/FROM/WHERE
+VALUES (1),
+       (2);    
+
+VALUES(1,2)
+
+-- three rows 2 columns 
+VALUES(false,2),
+      (true, 1),
+      (Null, Null);
+
+
+SELECT t.*
+FROM (VALUES(false,0),
+            (true, 1)) AS t(truth, "binary");
