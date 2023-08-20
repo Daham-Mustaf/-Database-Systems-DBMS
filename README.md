@@ -14,7 +14,7 @@ This repository contains solutions for the assignments of the Advanced SQL cours
 You can find the solutions for each assignment in their respective directories within this repository.
 
 - Assignment 1: [[Assignment 1](https://github.com/Daham-Mustaf/AdvancedSQL-and-Database-Systems-DBMS/tree/main/Assignment01)].
-- Assignment 2: [Link to Assignment 2](assignment2/)
+- Assignment 2: [[Assignment 2](h[ttps://github.com/Daham-Mustaf/AdvancedSQL-and-Database-Systems-DBMS/tree/main/Assignment01](https://github.com/Daham-Mustaf/AdvancedSQL-and-Database-Systems-DBMS/tree/main/assignment02))].
 - Assignment 3: [Link to Assignment 3](assignment3/)
 - ...
 
