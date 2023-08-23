@@ -25,8 +25,8 @@ public class CoreOfSQL {
 
             if (connection != null) {
                 logger.info("Connected to the database.");
-// Read SQL file
-                BufferedReader reader = new BufferedReader(new FileReader("/Users/dahammhamad/IdeaProjects/Java-sql/src/main/resources/sql_queries.sql"));
+                // Read SQL file
+                BufferedReader reader = new BufferedReader(new FileReader("/Users/dahammhamad/Desktop/Database/Advanced SQL/Java-sql/src/main/resources/sql_queries.sql\""));
                 String line;
                 StringBuilder sql = new StringBuilder();
 

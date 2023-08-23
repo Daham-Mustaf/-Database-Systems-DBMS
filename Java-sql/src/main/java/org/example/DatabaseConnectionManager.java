@@ -20,7 +20,7 @@ public class DatabaseConnectionManager {
     private DatabaseConnectionManager() {
         // Load database connection parameters from the properties file
         Properties properties = new Properties();
-        try (FileInputStream input = new FileInputStream("/Users/dahammhamad/IdeaProjects/Java-sql/src/main/resources/database.properties")) {
+        try (FileInputStream input = new FileInputStream("/Users/dahammhamad/Desktop/Database/Advanced SQL/Java-sql/src/main/resources/database.properties")) {
             properties.load(input);
             jdbcUrl = properties.getProperty("jdbc.url");
             username = properties.getProperty("jdbc.username");
