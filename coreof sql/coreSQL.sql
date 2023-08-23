@@ -76,3 +76,23 @@ GROUP BY t.a % 2;
 -- 12 ┆ Bag and Set Operations
 
 
+CREATE TABLE prehistoric (
+    class VARCHAR(255),
+    herbivore BOOLEAN,
+    legs INT,
+    species VARCHAR(255)
+);
+
+INSERT INTO prehistoric (class, herbivore, legs, species)
+VALUES
+    ('mammalia', true, 2, 'Megatherium'),
+    ('mammalia', true, 4, 'Paraceratherium'),
+    ('mammalia', false, 2, NULL),
+    ('mammalia', false, 4, 'Sabretooth'),
+    ('reptilia', true, 2, 'Iguanodon'),
+    ('reptilia', true, 4, 'Brachiosaurus'),
+    ('reptilia', false, 2, 'Velociraptor'),
+    ('reptilia', false, 4, NULL);
+
+
+
