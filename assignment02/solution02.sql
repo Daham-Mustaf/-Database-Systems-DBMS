@@ -96,3 +96,30 @@ VALUES(false,2),
 SELECT t.*
 FROM (VALUES(false,0),
             (true, 1)) AS t(truth, "binary");
+
+
+
+-- Chapter 02 — Video #05
+
+SELECT 2 + (SELECT t.d
+            FROM T AS t
+            WHERE t.a = 2) AS "The Answer";
+
+
+
+-- Create the table
+CREATE TABLE T (
+    a INT,
+    b CHAR(1),
+    c BOOLEAN,
+    d INT
+);
+
+-- Insert data into the table
+INSERT INTO T (a, b, c, d)
+VALUES
+    (1, 'X', TRUE, 10),
+    (2, 'Y', TRUE, 40),
+    (3, 'X', FALSE, 30),
+    (4, 'y', FALSE, 20),
+    (5, 'X', TRUE, NULL); -- Assuming the last row has a NULL value for column d 
