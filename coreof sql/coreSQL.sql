@@ -94,5 +94,22 @@ VALUES
     ('reptilia', false, 2, 'Velociraptor'),
     ('reptilia', false, 4, NULL);
 
+DELETE FROM prehistoric;
+
+
+SELECT p.class,
+       p.herbivore,
+       p.legs,
+       string_agg(p.species, '; ') AS species
+FROM prehistoric as p
+GROUP BY GROUPING SETS ((p.class));
+
+
+SELECT p.class,
+       p.herbivore,
+       p.legs,
+       string_agg(p.species, '; ') AS species
+FROM prehistoric as p
+GROUP BY ROLLUP (p.class, p.herbivore, p.legs);
 
 
