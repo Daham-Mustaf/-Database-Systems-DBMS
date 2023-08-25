@@ -113,3 +113,99 @@ FROM prehistoric as p
 GROUP BY ROLLUP (p.class, p.herbivore, p.legs);
 
 
+
+-- CUBE
+EXPLAIN VERBOSE
+SELECT p.class,
+       p."herbivore",
+       p.legs,
+       string_agg(p.species, ', ') AS species  -- string_agg ignores NULL (may use coalesce(p.species, '?'))
+FROM   prehistoric AS p
+GROUP BY CUBE (class, "herbivore", legs)
+
+
+
+DROP TABLE IF EXISTS dinosaurs;
+CREATE TABLE dinosaurs (species text, height float, length float, legs int);
+
+INSERT INTO dinosaurs(species, height, length, legs) VALUES
+  ('Ceratosaurus',      4.0,   6.1,  2),
+  ('Deinonychus',       1.5,   2.7,  2),
+  ('Microvenator',      0.8,   1.2,  2),
+  ('Plateosaurus',      2.1,   7.9,  2),
+  ('Spinosaurus',       2.4,  12.2,  2),
+  ('Tyrannosaurus',     7.0,  15.2,  2),
+  ('Velociraptor',      0.6,   1.8,  2),
+  ('Apatosaurus',       2.2,  22.9,  4),
+  ('Brachiosaurus',     7.6,  30.5,  4),
+  ('Diplodocus',        3.6,  27.1,  4),
+  ('Supersaurus',      10.0,  30.5,  4),
+  ('Albertosaurus',     4.6,   9.1,  NULL),  -- Bi-/quadropedality is
+  ('Argentinosaurus',  10.7,  36.6,  NULL),  -- unknown for these species.
+  ('Compsognathus',     0.6,   0.9,  NULL),  --
+  ('Gallimimus',        2.4,   5.5,  NULL),  -- Try to infer pedality from
+  ('Mamenchisaurus',    5.3,  21.0,  NULL),  -- their ratio of body height
+  ('Oviraptor',         0.9,   1.5,  NULL),  -- to length.
+  ('Ultrasaurus',       8.1,  30.5,  NULL);  --
+
+TABLE dinosaurs;
+
+
+-- Create a Common Table Expression (CTE) named 'bodies' to calculate the average shape ratio for dinosaurs with specified leg counts.
+-- The shape ratio is the average height divided by the average length for each leg count.
+
+-- Define the CTE 'bodies' that calculates the average shape ratio.
+WITH bodies(legs, shape) AS (
+  SELECT d.legs, AVG(d.height / d.length) AS shape
+  
+  -- Select data from the 'dinosaurs' table.
+  FROM dinosaurs AS d
+  
+  -- Filter out rows where the 'legs' column is not NULL.
+  WHERE d.legs IS NOT NULL
+  
+  -- Group the results by the number of legs.
+  GROUP BY d.legs
+)
+TABLE bodies;
+
+
+-- -- Create a temporary table to store completed dinosaurs
+-- CREATE TEMPORARY TABLE completed_dinosaurs AS
+-- SELECT
+--     d.id, -- Assuming 'id' is a unique identifier for each dinosaur
+--     CASE
+--         WHEN d.locomotion IS NOT NULL THEN d.locomotion
+--         ELSE
+--             -- Compute body shape for μ (replace this with your actual formula)
+--             -- For example: body shape is the average of height / length
+--             AVG(d.height / d.length)
+--     END AS computed_shape
+-- FROM dinosaurs AS d;
+
+-- -- Update dinosaurs with unknown locomotion based on closest shape in 'bodies'
+-- UPDATE dinosaurs AS d
+-- SET locomotion = (
+--     SELECT b.legs
+--     FROM bodies AS b
+--     ORDER BY ABS(b.shape - cd.computed_shape)
+--     LIMIT 1
+-- )
+-- WHERE d.locomotion IS NULL
+-- AND EXISTS (
+--     SELECT 1
+--     FROM completed_dinosaurs AS cd
+--     WHERE cd.id = d.id
+-- );
+
+-- -- Output the completed dinosaurs
+-- SELECT * FROM dinosaurs;
+SELECT d.*
+FROM   dinosaurs AS d
+WHERE  d.legs IS NOT NULL
+
+UNION ALL 
+
+SELECT d.*
+FROM  dinosaurs AS d
+WHERE d.legs IS NULL;
