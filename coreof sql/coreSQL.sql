@@ -214,10 +214,22 @@ WHERE d.legs IS NULL;
 SELECT d.species, d.height, d.length,
        (SELECT b.legs                               -- Find the shape entry in bodies
         FROM   bodies AS b                          -- that matches d's ratio of
-        ORDER BY abs(b.shape - d.height / d.length) -- height to length the closest
-        LIMIT 1) AS legs ;
+        WHERE  b.shape = (SELECT MIN(abs(shape - (d.height / d.length))) -- Find the minimum absolute difference
+                          FROM bodies)
+        LIMIT 1) AS legs
+FROM dinosaurs AS d;
+
 
 
         -- core new 
 
-        pozzz
+
+WITH min_difference AS (
+  SELECT MIN(ABS(shape - (d.height / d.length))) AS min_diff
+  FROM bodies
+)
+SELECT d.species, d.height, d.length, b.legs AS legs
+FROM dinosaurs AS d
+CROSS JOIN min_difference
+JOIN bodies AS b
+ON ABS(b.shape - (d.height / d.length)) = min_diff;
