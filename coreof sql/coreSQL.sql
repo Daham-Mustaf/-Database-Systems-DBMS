@@ -209,3 +209,10 @@ UNION ALL
 SELECT d.*
 FROM  dinosaurs AS d
 WHERE d.legs IS NULL;
+
+-- ➋ Realize query plan (assumes table bodies exists)
+SELECT d.species, d.height, d.length,
+       (SELECT b.legs                               -- Find the shape entry in bodies
+        FROM   bodies AS b                          -- that matches d's ratio of
+        ORDER BY abs(b.shape - d.height / d.length) -- height to length the closest
+        LIMIT 1) AS legs ;

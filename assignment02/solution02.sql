@@ -123,3 +123,6 @@ VALUES
     (3, 'X', FALSE, 30),
     (4, 'y', FALSE, 20),
     (5, 'X', TRUE, NULL); -- Assuming the last row has a NULL value for column d 
+
+
+    
